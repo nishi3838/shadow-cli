@@ -138,13 +138,15 @@ class GatewayClient:
             except json.JSONDecodeError:
                 continue
 
-            chunk = outer.get("responsebody", {})
+            chunk = outer.get("responsebody") or {}
+            if not isinstance(chunk, dict):
+                continue
             choices = chunk.get("choices")
             if not choices:
                 continue
 
-            choice = choices[0]
-            delta  = choice.get("delta", {})
+            choice = choices[0] or {}
+            delta  = choice.get("delta") or {}
 
             text_chunk = delta.get("content") or ""
             if text_chunk:
@@ -152,7 +154,7 @@ class GatewayClient:
                 if on_text:
                     on_text(text_chunk)
 
-            for tc_delta in delta.get("tool_calls", []):
+            for tc_delta in (delta.get("tool_calls") or []):
                 idx = tc_delta.get("index", 0)
                 if idx not in tc_acc:
                     tc_acc[idx] = {"id": "", "name": "", "arguments": ""}

@@ -2,6 +2,7 @@
 
 import os
 import sys
+import traceback
 from pathlib import Path
 
 from prompt_toolkit import PromptSession
@@ -95,6 +96,7 @@ def main() -> None:
             )
         except Exception as exc:
             _console.print(f"\n[red]Error:[/red] {exc}")
+            _console.print(traceback.format_exc(), markup=False)
             conv.messages.pop()
             continue
 
