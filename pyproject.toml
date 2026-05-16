@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.backends.legacy:build"
+
+[project]
+name = "shadow-cli"
+version = "0.1.0"
+description = "Terminal AI coding assistant powered by an internal LLM gateway"
+requires-python = ">=3.10"
+dependencies = [
+    "requests>=2.31",
+    "rich>=13.0",
+    "prompt_toolkit>=3.0",
+    "urllib3>=2.0",
+]
+
+[project.scripts]
+shadow = "shadow.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["shadow*"]
